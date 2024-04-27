@@ -2,7 +2,7 @@
 
 Elevate your notes on WhatsApp with AI capabilities, seamlessly synced to Notion. 🚀 Boost your productivity and creativity effortlessly! ✨
 
-<h2>With Notionistic , you can:</h2>
+<h2>With Notionistic, you can:</h2>
 
 <br>📝 Jot down notes, share images, files, and links on WhatsApp</br>
 <br>🧠 Leverage AI to enhance and organize your content intelligently</br>
