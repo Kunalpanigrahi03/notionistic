@@ -9,7 +9,8 @@ With Notionistic , you can:
 <br>📂 Sync your AI-enriched notes seamlessly to Notion for a centralized workspace</br>
 <br>🌐 Handle multi-content types effortlessly, ensuring a smooth, all-encompassing note-taking flow</br>
 
-Built With
+<h2>Built With</h2>
+
 <br>💻 TypeScript </br>
 <br>🤖 Gemini</br>
 <br>🔗 Langchain</br>
