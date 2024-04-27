@@ -1,4 +1,4 @@
-Notionistic
+**Notionistic**
 
 Elevate your notes on WhatsApp with AI capabilities, seamlessly synced to Notion. 🚀 Boost your productivity and creativity effortlessly! ✨
 
