@@ -18,6 +18,9 @@ require("dotenv/config");
 const notion_1 = require("./notion");
 const twilio_1 = require("./twilio");
 const gemini_1 = require("./gemini");
+const mongodb_1 = require("mongodb");
+const uri = process.env.MONGODB_URI;
+const client = new mongodb_1.MongoClient(uri);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -28,6 +31,15 @@ function handleTextMessage(message) {
         const description = yield (0, gemini_1.generateAiContext)(JSON.stringify({ message }));
         if (typeof description === 'string') {
             yield (0, notion_1.createNotionPage)(message, description.substring(0, 2000));
+            const newMessage = {
+                type: 'text',
+                content: message,
+                description: description,
+                createdAt: new Date()
+            };
+            yield client.connect();
+            const collection = client.db('notionistic').collection('messages');
+            yield collection.insertOne(newMessage);
         }
         else {
             console.error('Description is not a string:', description);
@@ -41,6 +53,15 @@ function handleImageMessage(mediaUrl) {
         const description = yield (0, gemini_1.generateAiContext)(JSON.stringify({ mediaUrl }));
         if (typeof description === 'string') {
             yield (0, notion_1.createNotionPage)(mediaUrl, description.substring(0, 2000));
+            const newMessage = {
+                type: 'image',
+                content: mediaUrl,
+                description: description,
+                createdAt: new Date()
+            };
+            yield client.connect();
+            const collection = client.db('notionistic').collection('messages');
+            yield collection.insertOne(newMessage);
         }
         else {
             console.error('Description is not a string:', description);

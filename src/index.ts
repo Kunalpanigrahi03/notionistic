@@ -3,6 +3,11 @@ import 'dotenv/config';
 import { createNotionPage } from './notion';
 import { sendTextMessage } from './twilio';
 import { generateAiContext } from './gemini'
+import { MongoClient } from 'mongodb';
+
+const uri = process.env.MONGODB_URI;
+
+const client = new MongoClient(uri!);
 
 const app = express();
 app.use(express.json());
@@ -14,6 +19,15 @@ async function handleTextMessage(message: string) {
   const description = await generateAiContext(JSON.stringify({ message }))
   if (typeof description === 'string') {
     await createNotionPage(message, description.substring(0, 2000));
+    const newMessage = {
+      type: 'text',
+      content: message,
+      description: description,
+      createdAt: new Date()
+    };
+    await client.connect();
+    const collection = client.db('notionistic').collection('messages');
+    await collection.insertOne(newMessage);
   } else {
     console.error('Description is not a string:', description);
   }
@@ -25,6 +39,15 @@ export async function handleImageMessage(mediaUrl: string) {
   const description = await generateAiContext(JSON.stringify({ mediaUrl }))
   if (typeof description === 'string') {
     await createNotionPage(mediaUrl, description.substring(0, 2000));
+    const newMessage = {
+      type: 'image',
+      content: mediaUrl,
+      description: description,
+      createdAt: new Date()
+    };
+    await client.connect();
+    const collection = client.db('notionistic').collection('messages');
+    await collection.insertOne(newMessage);
   } else {
     console.error('Description is not a string:', description);
   }
