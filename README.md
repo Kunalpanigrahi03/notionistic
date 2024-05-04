@@ -16,3 +16,4 @@ Elevate your notes on WhatsApp with AI capabilities, seamlessly synced to Notion
 <br>🔗 Langchain</br>
 <br>📲 Twilio</br>
 <br>📚 Notion API</br>
+<br>📦 Mongo DB</br>
