@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import 'dotenv/config';
 import { createNotionPage } from './notion';
-import { sendTextMessage } from './twilio';
+import { handleIncomingMessage, sendTextMessage } from './twilio';
 import { generateAiContext } from './gemini';
 import { MongoClient } from 'mongodb';
 
@@ -26,7 +26,7 @@ app.use((_req: CustomRequest, _res: Response, _next: NextFunction) => {
   _next();
 });
 
-const timeFrame = 30 * 60 * 1000;
+const timeFrame = 5 * 60 * 1000;
 
 app.use(async (_req: CustomRequest, _res: Response, _next: NextFunction) => {
   if (firstRequestTime) {
@@ -122,7 +122,10 @@ app.post('/', async (_req: CustomRequest, _res: Response) => {
     await handleImageMessage(mediaUrl);
   } else {
     const message = body.Body;
-    await handleTextMessage(message);
+    if (message === "hi" || message === "hello" || message === "Hi" || message === "Hello" || message === "bye" || message === "done" || message === "exit" || message === "Bye" || message === "Done" || message === "Exit") {
+      await handleIncomingMessage(message);
+    }
+    else await handleTextMessage(message);
   }
 
   _res.status(200).send();

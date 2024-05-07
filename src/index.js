@@ -18,14 +18,12 @@ require("dotenv/config");
 const notion_1 = require("./notion");
 const twilio_1 = require("./twilio");
 const gemini_1 = require("./gemini");
-const auth_1 = __importDefault(require("./auth"));
 const mongodb_1 = require("mongodb");
 const uri = process.env.MONGODB_URI;
 const client = new mongodb_1.MongoClient(uri);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use('/auth', auth_1.default);
 let firstRequestTime;
 app.use((_req, _res, _next) => {
     _req.requestTime = Date.now();
@@ -34,7 +32,7 @@ app.use((_req, _res, _next) => {
     }
     _next();
 });
-const timeFrame = 30 * 60 * 1000;
+const timeFrame = 0 * 60 * 1000;
 app.use((_req, _res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     if (firstRequestTime) {
         const currentTime = Date.now();
@@ -122,7 +120,11 @@ app.post('/', (_req, _res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     else {
         const message = body.Body;
-        yield handleTextMessage(message);
+        if (message === "hi" || message === "hello" || message === "Hi" || message === "Hello" || message === "bye" || message === "done" || message === "exit") {
+            yield (0, twilio_1.handleIncomingMessage)(message);
+        }
+        else
+            yield handleTextMessage(message);
     }
     _res.status(200).send();
 }));
