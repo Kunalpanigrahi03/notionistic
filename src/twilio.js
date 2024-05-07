@@ -27,8 +27,15 @@ function handleIncomingMessage(message) {
             });
         }
         else if (message.toLowerCase() === "done" || message.toLowerCase() === "exit" || message.toLowerCase() === "bye") {
+            const elapsedTime = calculateElapsedTime();
+            const studyTime = formatTime(elapsedTime);
             yield exports.client.messages.create({
                 body: exports.endingMessage,
+                from: process.env.MY_TWILIO_NUM,
+                to: process.env.MY_PERSONAL_NUM
+            });
+            yield exports.client.messages.create({
+                body: `You studied for ${studyTime}.`,
                 from: process.env.MY_TWILIO_NUM,
                 to: process.env.MY_PERSONAL_NUM
             });
@@ -36,6 +43,16 @@ function handleIncomingMessage(message) {
     });
 }
 exports.handleIncomingMessage = handleIncomingMessage;
+function calculateElapsedTime(firstRequestTime) {
+    const currentTime = Date.now();
+    const elapsedTime = firstRequestTime ? currentTime - firstRequestTime : 0;
+    return elapsedTime;
+}
+function formatTime(milliseconds) {
+    const minutes = Math.floor(milliseconds / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+    return `${minutes} minutes and ${seconds} seconds`;
+}
 function sendTextMessage(body) {
     return __awaiter(this, void 0, void 0, function* () {
         yield exports.client.messages.create({

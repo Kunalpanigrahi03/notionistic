@@ -120,7 +120,7 @@ app.post('/', (_req, _res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     else {
         const message = body.Body;
-        if (message === "hi" || message === "hello" || message === "Hi" || message === "Hello" || message === "bye" || message === "done" || message === "exit") {
+        if (message === "hi" || message === "hello" || message === "Hi" || message === "Hello" || message === "bye" || message === "done" || message === "exit" || message === "Bye" || message === "Done" || message === "Exit") {
             yield (0, twilio_1.handleIncomingMessage)(message);
         }
         else

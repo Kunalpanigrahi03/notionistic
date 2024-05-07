@@ -26,7 +26,7 @@ app.use((_req: CustomRequest, _res: Response, _next: NextFunction) => {
   _next();
 });
 
-const timeFrame = 5 * 60 * 1000;
+const timeFrame = 0 * 60 * 1000;
 
 app.use(async (_req: CustomRequest, _res: Response, _next: NextFunction) => {
   if (firstRequestTime) {
@@ -38,7 +38,8 @@ app.use(async (_req: CustomRequest, _res: Response, _next: NextFunction) => {
       const remainingMinutes = Math.ceil(remainingTime / (60 * 1000));
       const nextAllowedTime = new Date(currentTime + remainingTime).toLocaleString();
       await sendTextMessage(`Time remaining: ${remainingMinutes} minutes. You can continue at ${nextAllowedTime}.`);
-      _res.status(403).send("You are not allowed to send messages yet. Please wait for the specified time frame to elapse.");
+      await sendTextMessage("You are not allaowed to send messages yet. Please wait for the specified time frame to elapse.");
+      _res.status(403).send("Not Allowed");
     } else {
       _next();
     }

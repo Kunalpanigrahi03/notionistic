@@ -21,7 +21,7 @@ function createNotionPage(_message_, _description_) {
                 "cover": {
                     "type": "external",
                     "external": {
-                        "url": "https://media.licdn.com/dms/image/D4D12AQF6mW4EuB-99Q/article-cover_image-shrink_720_1280/0/1692951785182?e=2147483647&v=beta&t=I6_1-aBTAg0fihJHret-C4hRNuffBu8JyrqKfXsm74w"
+                        "url": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/final_keyword_header.width-800.format-webp.webp"
                     }
                 },
                 "properties": {
